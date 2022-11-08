@@ -8,6 +8,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { ResponseTransformInterceptor } from './common/interceptors/response-transform.interceptor';
 import { HttpExceptionFilter } from './common/exception-filters/global.exception-filter';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,7 +16,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new LoggingInterceptor());
   app.useGlobalInterceptors(new ResponseTransformInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
-  app.setGlobalPrefix('/api');
+  app.setGlobalPrefix(`${process.env.API_PREFIX}/${process.env.VERSION}`);
 
   const options = new DocumentBuilder()
     .setTitle('Diet Tool SERVER')
@@ -33,6 +34,8 @@ async function bootstrap() {
       operationsSorter: 'alpha',
     },
   });
-  await app.listen(process.env.PORT || 3000);
+  const port = process.env.PORT || 3000;
+  await app.listen(port);
+  new Logger().log(`Server started on Port ${port}`);
 }
 bootstrap();
