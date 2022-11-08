@@ -1,3 +1,4 @@
+import { LoggerService } from '@fittr/logger';
 import {
   ArgumentMetadata,
   Injectable,
@@ -16,14 +17,17 @@ interface PipeOptions extends ValidatorOptions {
 }
 @Injectable()
 export class DtoValidationPipe implements PipeTransform {
-  constructor(private validationOptions: PipeOptions = {}) {}
+  private logger: LoggerService;
+  constructor(private validationOptions: PipeOptions = {}) {
+    this.logger = new LoggerService(DtoValidationPipe.name);
+  }
   transform(value: any, { metatype }: ArgumentMetadata) {
     if (!metatype || !this.toValidate(metatype)) {
       return value;
     }
     if (metatype === Array && this.validationOptions.arrayOf) {
       if (!Array.isArray(value)) {
-        console.log('Not an Array');
+        this.logger.debug(DtoValidationPipe.name, 'Not an array');
         return value;
       } else {
         const transformedValues = value.map((val) => {
