@@ -8,7 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "prepare": "husky install && npm run create:hook",
-    "create:hook": "npx husky add .husky/pre-commit 'npm run husky' && git add .husky/pre-commit",
+    "create:hook": "npx husky add .husky/pre-commit 'npm run husky'",
     "husky": "npm run format && npm run lint",
     "build": "nest build",
     "format": "prettier \"src/**/*.ts\" \"test/**/*.ts\"",
