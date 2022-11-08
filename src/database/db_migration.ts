@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { DataSource } from 'typeorm';
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 import { migrationTest1667930889139 } from './migrations/1667930889139-migration-test';
@@ -31,26 +32,22 @@ export const executeMigrations = async () => {
     database: DB_DATABASE,
   });
 
-  // tslint:disable-next-line: no-console
   console.log('Connecting to database');
 
   const connection = new DataSource(connectionConfigs);
 
   await connection.initialize();
 
-  // tslint:disable-next-line: no-console
   console.log(
     `Connection established to ${connectionConfigs.database}@${connectionConfigs.host}`,
   );
 
-  // tslint:disable-next-line: no-console
   console.log('Starting Migrations process');
 
   await connection.runMigrations({
     transaction: 'all',
   });
 
-  // tslint:disable-next-line: no-console
   console.log('Migrations executed');
 
   await connection.close();
@@ -58,11 +55,9 @@ export const executeMigrations = async () => {
 
 executeMigrations()
   .then(() => {
-    // tslint:disable-next-line: no-console
     console.log('Migrations OK');
   })
   .catch((err) => {
-    // tslint:disable-next-line: no-console
     console.error('Migrations Failed', err);
     process.exit(1);
   });

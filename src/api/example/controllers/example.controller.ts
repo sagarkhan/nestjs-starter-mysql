@@ -25,7 +25,6 @@ import { CreateExampleDto } from '../dtos/create-example.dto';
 import { ExampleIdDto } from '../dtos/example-id';
 import { UpdateExampleDto } from '../dtos/update-example.dto';
 import { ExampleCoreService } from '../services/example.core.service';
-import { ExampleService } from '../services/example.service';
 
 @ApiTags('Example')
 @ApiBearerAuth()
