@@ -11,7 +11,7 @@
     "create:hook": "npx husky add .husky/pre-commit 'npm run husky' && git add .husky/pre-commit",
     "husky": "npm run format && npm run lint",
     "build": "nest build",
-    "format": "prettier \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "format:fix": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nodemon",
