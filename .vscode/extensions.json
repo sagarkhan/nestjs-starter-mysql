@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "gruntfuggly.todo-tree",
+    "mikestead.dotenv",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens"
+  ]
+}

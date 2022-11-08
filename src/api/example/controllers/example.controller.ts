@@ -1,8 +1,11 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
@@ -15,16 +18,34 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { DtoValidationPipe } from 'src/common/pipes/dto-validation.pipe';
+import {
+  LoggedInUser,
+  RequestUser,
+} from '../../../common/decorators/request-user.decorator';
 import { CreateExampleDto } from '../dtos/create-example.dto';
 import { ExampleIdDto } from '../dtos/example-id';
 import { UpdateExampleDto } from '../dtos/update-example.dto';
+import { ExampleCoreService } from '../services/example.core.service';
 import { ExampleService } from '../services/example.service';
 
 @ApiTags('Example')
 @ApiBearerAuth()
 @Controller('example')
 export class ExampleController {
-  constructor(private readonly exampleService: ExampleService) {}
+  constructor(
+    private readonly exampleService: ExampleService,
+    private readonly exampleCoreService: ExampleCoreService,
+  ) {}
+
+  @ApiOperation({
+    summary: 'Get Example by id',
+    description: 'This API returns the example object',
+  })
+  @ApiParam({ name: 'id', required: true })
+  @Get(':id')
+  findById(@Param('id') id: string) {
+    return this.exampleCoreService.findById(Number(id));
+  }
 
   @ApiOperation({
     summary: 'Get All Example',
@@ -32,7 +53,7 @@ export class ExampleController {
   })
   @Get()
   findAll() {
-    return this.exampleService.findAll();
+    return this.exampleCoreService.findAll();
   }
 
   @ApiOperation({
@@ -41,8 +62,11 @@ export class ExampleController {
   })
   @ApiBody({ type: CreateExampleDto, required: true })
   @Post()
-  create(@Body(new DtoValidationPipe()) payload: CreateExampleDto) {
-    return payload;
+  create(
+    @Body(new DtoValidationPipe()) payload: CreateExampleDto,
+    @RequestUser() user: LoggedInUser,
+  ) {
+    return this.exampleCoreService.create(payload, user.id);
   }
 
   @ApiOperation({
@@ -52,11 +76,13 @@ export class ExampleController {
   @ApiParam({ name: 'id', required: true })
   @ApiBody({ type: UpdateExampleDto, required: true })
   @Put(':id')
-  update(
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async update(
     @Param('id') id: string,
     @Body(new DtoValidationPipe()) payload: UpdateExampleDto,
+    @RequestUser() user: LoggedInUser,
   ) {
-    return { id, ...payload };
+    await this.exampleCoreService.updateById(Number(id), payload, user.id);
   }
 
   @ApiOperation({
@@ -65,7 +91,13 @@ export class ExampleController {
   })
   @ApiParam({ name: 'id', required: true })
   @Delete(':id')
-  delete(@Param() params: ExampleIdDto) {
-    return params.id;
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async delete(
+    @Param() params: ExampleIdDto,
+    @RequestUser() user: LoggedInUser,
+  ) {
+    await this.exampleCoreService.deleteById(Number(params.id), {
+      deleted_by: user.id,
+    });
   }
 }

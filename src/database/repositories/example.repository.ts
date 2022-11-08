@@ -1,2 +1,2 @@
 import { DataSource } from 'typeorm';
-import { ExampleEntity } from '../entities/example.entity';
+import { Example } from '../entities/example.entity';

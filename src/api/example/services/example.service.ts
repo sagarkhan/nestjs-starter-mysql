@@ -1,15 +1,13 @@
-import { Injectable } from '@nestjs/common';
-import { ExampleEntity } from 'src/database/entities/example.entity';
+import { Injectable, Logger } from '@nestjs/common';
+import { Example } from 'src/database/entities/example.entity';
+import { CreateExampleDto } from '../dtos/create-example.dto';
+import { ExampleCoreService } from './example.core.service';
 
 @Injectable()
 export class ExampleService {
-  private readonly examples: ExampleEntity[] = [];
+  private logger: Logger;
 
-  create(example: ExampleEntity) {
-    this.examples.push(example);
-  }
-
-  findAll(): ExampleEntity[] {
-    return this.examples;
+  constructor(private readonly exampleCoreService: ExampleCoreService) {
+    this.logger = new Logger('ExampleService');
   }
 }

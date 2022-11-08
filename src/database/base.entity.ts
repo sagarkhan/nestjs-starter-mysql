@@ -13,13 +13,19 @@ export abstract class BaseEntity {
   @CreateDateColumn()
   created_at?: Date;
 
+  @Column('integer')
+  created_by: number;
+
   @Column()
   @UpdateDateColumn()
   updated_at?: Date;
 
-  @Column('integer')
+  @Column('integer', { nullable: true })
   updated_by?: number;
 
-  @Column('integer')
+  @Column({ nullable: true })
+  deleted_at?: Date;
+
+  @Column('integer', { nullable: true })
   deleted_by?: number;
 }
