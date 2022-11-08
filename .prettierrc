@@ -1,6 +1,5 @@
 {
   "singleQuote": true,
   "trailingComma": "all",
-  "arrowParens": "always",
-  "editorconfig": true
+  "arrowParens": "always"
 }
