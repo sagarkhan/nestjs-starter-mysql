@@ -1,12 +1,11 @@
 import { DataSource } from 'typeorm';
 
 const dataSource = new DataSource({
-  // TODO
-  type: 'postgres',
+  type: 'mysql',
   host: 'localhost',
-  username: 'postgres',
-  password: 'postgres',
-  database: 'postgres',
+  username: 'root',
+  password: 'root',
+  database: 'test',
   synchronize: false,
   logging: true,
   entities: ['src/database/entities/*.entity.ts'],

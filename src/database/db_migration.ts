@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm';
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
+import { migrationTest1667930889139 } from './migrations/1667930889139-migration-test';
 
 const getConnectionConfigs = ({
   host,
@@ -8,15 +9,14 @@ const getConnectionConfigs = ({
   database,
 }): MysqlConnectionOptions => {
   return {
-    // TODO
-    type: 'postgres' as 'mysql',
+    type: 'mysql',
     host,
     username,
     password,
     database,
     synchronize: false,
     logging: true,
-    migrations: [],
+    migrations: [migrationTest1667930889139],
     entities: ['./src/database/entities/*.entity{.ts,.js}'],
   };
 };

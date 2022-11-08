@@ -16,8 +16,7 @@ export class ConfigService {
 
   public getDatabaseConfigs(): MysqlConnectionOptions {
     return {
-      // TODO
-      type: 'postgres' as 'mysql',
+      type: 'mysql',
       host: this.get('DB_HOST'),
       port: Number(this.get('DB_PORT')),
       username: this.get('DB_USERNAME'),

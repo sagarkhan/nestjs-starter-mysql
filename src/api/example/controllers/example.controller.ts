@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -32,10 +31,7 @@ import { ExampleService } from '../services/example.service';
 @ApiBearerAuth()
 @Controller('example')
 export class ExampleController {
-  constructor(
-    private readonly exampleService: ExampleService,
-    private readonly exampleCoreService: ExampleCoreService,
-  ) {}
+  constructor(private readonly exampleCoreService: ExampleCoreService) {}
 
   @ApiOperation({
     summary: 'Get Example by id',
